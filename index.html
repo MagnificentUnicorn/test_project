@@ -1,0 +1,57 @@
+<html>
+	<head>	   
+		<title>TestRemovingComments</title> 
+   		<link rel="stylesheet" href="css/simplescrollbars.css">
+   		<link rel="stylesheet" href="css/codemirror.css">
+		<link rel="stylesheet" href="css/styles.css">
+		
+		<script src="js/codemirror.js"></script>
+   		<script src="js/javascript.js"></script>
+   		<script src="js/scroll/simplescrollbars.js"></script>
+   		<script src="js/selection/active-line.js"></script>
+   		<script src="js/file-functions.js"></script>
+   		<script src="js/delete-comments.js"></script>
+
+	<body>
+		<div class="container">
+			<div class="buttons-container">
+				<label class="button">
+					<input type="file" accept=".txt,.js" onchange="loadFileAsText(this)"/>
+					<span>Загрузить файл</span>
+				</label>
+				<button class="button button-primary" id="remove-comments" onclick = "mainCommentRemover()">Убрать комментарии</button>
+				<button class="button button-primary d-none" id="restore-file" onclick = "returnInitialCode()">Восстановить комментарии</button>
+			</div>
+			
+			<div class="code-area">
+				<div id="input-container">
+					<textarea id="code-with-comments" wrap="soft" rows="25" cols="95"></textarea>
+				</div>
+			
+				<div class="output-container">
+					<textarea id="store-container" class="d-none"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			
+			let editor_element = document.getElementById('code-with-comments');
+			let editor_state = false;
+		    let editor = CodeMirror.fromTextArea(editor_element, {
+			    mode: "text/javascript",
+			    lineNumbers: true,
+			    lineWrapping: true,
+			    styleActiveLine: true,
+			    scrollbarStyle: 'overlay',
+			  });
+
+			  editor.on('change', function(cm, e) {
+			  	if (e.origin !== 'setValue'){
+			  		let restore_button = document.getElementById('restore-file');
+    				restore_button.classList.add('d-none');
+    				editor_state = true;	
+			  	}
+			  });
+			  
+		</script>
